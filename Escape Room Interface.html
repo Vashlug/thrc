@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Therac-25 Control Console</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #00ff99;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .console {
+      border: 3px solid #00ff99;
+      padding: 20px;
+      width: 400px;
+      background-color: #000;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select, button {
+      width: 100%;
+      margin-top: 5px;
+	  padding-right: 0px;
+      padding-top: 5px;
+      background: black;
+      color: #00ff99;
+      border: 1px solid #00ff99;
+      font-family: monospace;
+    }
+
+    button {
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px dashed #00ff99;
+      text-align: center;
+    }
+
+    .warning {
+      color: red;
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="console">
+  <h2>Sign-In</h2>
+  <label for="code">Access Code</label>
+  <input type="text" id="code" value="">
+  
+  <button onclick="administer()"><bold>ENTER</bold></button>
+
+<div class="warning" id="warning">
+    INCORRECT ACCESS CODE <br>
+	Hint: Treatment Room Layout
+</div>
+</div>
+
+<script>
+  let lastEditTime = Date.now();
+
+  document.querySelectorAll("input, select").forEach(el => {
+    el.addEventListener("input", () => {
+      lastEditTime = Date.now();
+    });
+  });
+
+function administer() {
+  const code = document.getElementById("code").value.trim();
+
+    // Check for Correct Access Code
+    if (code === "BTDTV") {
+      window.location.href = "correct.html";
+    } else {
+      document.getElementById("warning").style.display = "block";
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Therac-25 Control Console</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #00ff99;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .console {
+      border: 3px solid #00ff99;
+      padding: 20px;
+      width: 400px;
+      background-color: #000;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select, button {
+      width: 100%;
+      margin-top: 5px;
+      padding: 5px;
+      background: black;
+      color: #00ff99;
+      border: 1px solid #00ff99;
+      font-family: monospace;
+    }
+
+    button {
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px dashed #00ff99;
+      text-align: center;
+    }
+
+    .warning {
+      color: red;
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="console">
+  <h2>THERAC-25</h2>
+  <center><h3>Welcome Operator! Please enter treatment conditions.</h3></center>
+  
+  <label for="name">Patient Name</label>
+  <input type="text" id="name" value="">
+  
+  <label for="mode">Treatment Mode</label>
+  <select id="mode">
+    <option value="xray">X-Ray</option>
+    <option value="electron">Electron Beam</option>
+  </select>
+  
+  <label for="rot">Gantry Rotation</label>
+  <input type="number" id="rot" value="">
+  
+  <label for="colx">Collimater X (cm)</label>
+  <input type="number" id="colx" value="">
+  
+  <label for="coly">Collimator Y (cm)</label>
+  <input type="number" id="coly" value="">
+  
+  <label for="dose">Radiation Dose (units)</label>
+  <input type="number" id="dose" value="200">
+
+  <button onclick="administer()">ADMINISTER TREATMENT</button>
+
+  <div class="status" id="status">
+    STATUS: OPERATIONAL
+  </div>
+
+  <div class="warning" id="warning">
+    ERROR - Failsafe Triggered
+  </div>
+</div>
+
+<script>
+  let lastEditTime = Date.now();
+
+  document.querySelectorAll("input, select").forEach(el => {
+    el.addEventListener("input", () => {
+      lastEditTime = Date.now();
+    });
+  });
+
+  function administer() {
+    const mode = document.getElementById("mode").value;
+    const dose = parseInt(document.getElementById("dose").value, 10);
+    const rot  = parseInt(document.getElementById("rot").value, 10);
+    const colx = parseInt(document.getElementById("colx").value, 10);
+    const coly = parseInt(document.getElementById("coly").value, 10);
+
+    if (
+      mode === "electron" &&
+      dose === 50 &&
+      rot === 51 &&
+      colx === 2 &&
+      coly === 3
+    ) {
+      window.location.href = "treating.html";
+    } else {
+      document.getElementById("warning").style.display = "none";
+    }
+  }
+</script>
+
+</body>
+</html>
